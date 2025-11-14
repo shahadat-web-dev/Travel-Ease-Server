@@ -94,18 +94,23 @@ async function run() {
     });
 
 
-   
-
-    //  Get booking
-    app.get('/bookings', async (req, res) => {
-      const email = req.query.email;
-      let query = {};
-      if (email) {
-        query = { userEmail: email }; // Filter by user
+    // Vehicles delete
+    app.delete('/vehicles/:id', async (req, res) => {
+      try {
+        const id = req.params.id;
+        const query = { _id: new ObjectId(id) };
+        const result = await vehiclesCollection.deleteOne(query);
+        if (result.deletedCount === 0) {
+          return res.status(404).send({ message: "Vehicle not found" });
+        }
+        res.send({ message: "Vehicle deleted successfully" });
+      } catch (error) {
+        res.status(500).send({ error: error.message });
       }
-      const result = await bookingsCollection.find(query).toArray();
-      res.send(result);
     });
+
+
+ 
 
 
 
