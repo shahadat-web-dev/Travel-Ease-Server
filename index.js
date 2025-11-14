@@ -148,7 +148,12 @@ async function run() {
     })
 
 
-  
+    // Products get All products : find()
+    app.get('/products', async (req, res) => {
+      const cursor = productsCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    })
 
 
     //  letes product
