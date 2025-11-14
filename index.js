@@ -52,7 +52,7 @@ async function run() {
           price: updatedProduct.category,
           price: updatedProduct.pricePerDay,
           price: updatedProduct.location,
-          price: updatedProduct.availability,
+          price: updatedProduct.location,
           price: updatedProduct.description,
           price: updatedProduct.coverImage,
         }
@@ -62,14 +62,14 @@ async function run() {
     });
 
 
-    
-  //  
-    app.get("/vehicles/:id", async (req, res) => {
-      const id = req.params.id;
-      const query = { _id: new ObjectId(id) };
-      const result = await vehiclesCollection.findOne(query);
+    // Add Vehicles 
+    app.post('/vehicles', async (req, res) => {
+      const newVehicles = req.body;
+      const result = await vehiclesCollection.insertOne(newVehicles);
       res.send(result);
     });
+
+
 
 
     // Get vehicles
