@@ -78,24 +78,23 @@ async function run() {
     });
 
 
-   
-
-
-    // Vehicles delete
-    app.delete('/vehicles/:id', async (req, res) => {
+    // Get vehicles
+    app.get("/vehicles", async (req, res) => {
       try {
-        const id = req.params.id;
-        const query = { _id: new ObjectId(id) };
-        const result = await vehiclesCollection.deleteOne(query);
-        if (result.deletedCount === 0) {
-          return res.status(404).send({ message: "Vehicle not found" });
+        const email = req.query.email;
+        let query = {};
+        if (email) {
+          query = { ownerEmail: email };
         }
-        res.send({ message: "Vehicle deleted successfully" });
+        const result = await vehiclesCollection.find(query).toArray();
+        res.send(result);
       } catch (error) {
         res.status(500).send({ error: error.message });
       }
     });
 
+
+   
 
     //  Get booking
     app.get('/bookings', async (req, res) => {
