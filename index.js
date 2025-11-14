@@ -123,23 +123,16 @@ async function run() {
 
 
 
+    // BookNow Data 
+    app.post('/bookings', async (req, res) => {
+      const newBookings = req.body;
+      const result = await bookingsCollection.insertOne(newBookings);
+      res.send(result);
+    });
 
 
 
-    // User Post
-    app.post('/users', async (req, res) => {
-      const newUser = req.body;
-      const email = req.body.email;
-      const query = { email: email }
-      const existingUser = await usersCollection.findOne(query);
-      if (existingUser) {
-        res.send('user already exits. do not need to insert again')
-      }
-      else {
-        const result = await usersCollection.insertOne(newUser);
-        res.send(result);
-      }
-    })
+   
 
 
     // Products get All products : find()
