@@ -110,16 +110,19 @@ async function run() {
     });
 
 
- 
-
-
-
-    // BookNow Data 
-    app.post('/bookings', async (req, res) => {
-      const newBookings = req.body;
-      const result = await bookingsCollection.insertOne(newBookings);
+    //  Get booking
+    app.get('/bookings', async (req, res) => {
+      const email = req.query.email;
+      let query = {};
+      if (email) {
+        query = { userEmail: email }; // Filter by user
+      }
+      const result = await bookingsCollection.find(query).toArray();
       res.send(result);
     });
+
+
+
 
 
 
