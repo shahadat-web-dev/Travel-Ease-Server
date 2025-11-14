@@ -69,23 +69,16 @@ async function run() {
       res.send(result);
     });
 
-
-
-
-    // Get vehicles
-    app.get("/vehicles", async (req, res) => {
-      try {
-        const email = req.query.email;
-        let query = {};
-        if (email) {
-          query = { ownerEmail: email };
-        }
-        const result = await vehiclesCollection.find(query).toArray();
-        res.send(result);
-      } catch (error) {
-        res.status(500).send({ error: error.message });
-      }
+  //  
+    app.get("/vehicles/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await vehiclesCollection.findOne(query);
+      res.send(result);
     });
+
+
+   
 
 
     // Vehicles delete
