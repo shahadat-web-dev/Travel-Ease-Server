@@ -132,15 +132,23 @@ async function run() {
 
 
 
-   
-
-
-    // Products get All products : find()
-    app.get('/products', async (req, res) => {
-      const cursor = productsCollection.find();
-      const result = await cursor.toArray();
-      res.send(result);
+    // User Post
+    app.post('/users', async (req, res) => {
+      const newUser = req.body;
+      const email = req.body.email;
+      const query = { email: email }
+      const existingUser = await usersCollection.findOne(query);
+      if (existingUser) {
+        res.send('user already exits. do not need to insert again')
+      }
+      else {
+        const result = await usersCollection.insertOne(newUser);
+        res.send(result);
+      }
     })
+
+
+  
 
 
     //  letes product
